@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -25,13 +26,15 @@ public class FilmController {
 
     @GetMapping("{id}")
     public ResponseEntity<FilmDTO> findById(@PathVariable String id) {
-        Optional<FilmDTO> FilmDTO = null;
+        Optional<FilmDTO> filmDTO = null;
         try {
-            FilmDTO = this.service.findByID(id);
+            filmDTO = this.service.findByID(id);
+            return ResponseEntity.ok(filmDTO.get());
         } catch (NotFoundException e) {
            return ResponseEntity.notFound().header(e.getMessage()).build();
+        } catch (NoSuchElementException es) {
+            return ResponseEntity.notFound().header(es.getMessage()).build();
         }
-        return ResponseEntity.ok(FilmDTO.get());
     }
 
     @PostMapping
