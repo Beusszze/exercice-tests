@@ -54,7 +54,7 @@ public class CinemaControllerTest {
 
 
     @Test
-    public void testfindAllCinemas() throws Exception {
+    public void testFindAllCinemas() throws Exception {
         this.mockMvc.perform(get("/cinemas"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isEmpty());
@@ -128,7 +128,6 @@ public class CinemaControllerTest {
         Assertions.assertEquals(finalBody.getNom(), this.cinemaDTOUpdated().getNom());
         Assertions.assertEquals(finalBody.getId(), this.cinemaDTOUpdated().getId());
     }
-
     @Test
     public void testDeleteCinema() throws Exception {
         Gson json = new GsonBuilder().create();
