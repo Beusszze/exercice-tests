@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -28,10 +29,12 @@ public class CinemaController {
         Optional<CinemaDTO> cinemaDTO = null;
         try {
             cinemaDTO = this.service.findByID(id);
+            return ResponseEntity.ok(cinemaDTO.get());
         } catch (NotFoundException e) {
            return ResponseEntity.notFound().header(e.getMessage()).build();
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().header(e.getMessage()).build();
         }
-        return ResponseEntity.ok(cinemaDTO.get());
     }
 
     @PostMapping
