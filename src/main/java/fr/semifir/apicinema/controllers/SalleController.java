@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -28,10 +29,12 @@ public class SalleController {
         Optional<SalleDTO> SalleDTO = null;
         try {
             SalleDTO = this.service.findByID(id);
+            return ResponseEntity.ok(SalleDTO.get());
         } catch (NotFoundException e) {
            return ResponseEntity.notFound().header(e.getMessage()).build();
+        } catch (NoSuchElementException e){
+            return ResponseEntity.notFound().header(e.getMessage()).build();
         }
-        return ResponseEntity.ok(SalleDTO.get());
     }
 
     @PostMapping
